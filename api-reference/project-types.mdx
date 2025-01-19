@@ -1,0 +1,115 @@
+---
+title: 'Project Types'
+api: 'GET /project-types'
+description: 'Retrieve carbon project type information'
+---
+
+# Project Types API
+
+Access information about different types of carbon offset projects and their categorization.
+
+## Authorizations
+
+<ParamField header="X-API-KEY" type="string" required>
+  API key for authentication.
+</ParamField>
+
+## Endpoint
+
+### Get All Project Types
+
+<ParamField query="name" type="string">
+  Filter by project type name
+</ParamField>
+
+<ParamField query="scope" type="string">
+  Filter by scope ID or name
+</ParamField>
+
+<ParamField query="page" type="integer">
+  Page number for pagination
+</ParamField>
+
+<ParamField query="page_size" type="integer" default="10">
+  Number of results per page (max: 100)
+</ParamField>
+
+### Response
+
+<ResponseField name="count" type="integer">
+  Total number of project types
+</ResponseField>
+
+<ResponseField name="next" type="string">
+  URL for next page of results
+</ResponseField>
+
+<ResponseField name="previous" type="string">
+  URL for previous page of results
+</ResponseField>
+
+<ResponseField name="results" type="array">
+  <Expandable title="Project Type properties">
+    <ResponseField name="id" type="integer">
+      Project type ID
+    </ResponseField>
+    
+    <ResponseField name="name" type="string">
+      Project type name
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Project type description
+    </ResponseField>
+
+    <ResponseField name="scope_name" type="string">
+      Name of the associated scope
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY'
+}
+
+# Get forestry-related project types
+params = {
+    'name': 'forestry',
+    'page_size': 50
+}
+
+response = requests.get(
+    'https://api.carbonapi.com/project-types',
+    headers=headers,
+    params=params
+)
+```
+
+### Example Response
+
+```json
+{
+  "count": 25,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "name": "REDD+",
+      "description": "Reducing emissions from deforestation and forest degradation",
+      "scope_name": "Forestry and Land Use"
+    },
+    {
+      "id": 2,
+      "name": "Afforestation/Reforestation",
+      "description": "Establishment of forest on previously unforested land",
+      "scope_name": "Forestry and Land Use"
+    }
+  ]
+}
+``` 

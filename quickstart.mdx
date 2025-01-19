@@ -1,86 +1,105 @@
 ---
-title: 'Quickstart'
-description: 'Start building awesome documentation in under 5 minutes'
+title: 'Quick Start'
+description: 'Get started with the Carbon Markets API in minutes.'
 ---
 
-## Setup your development
+# Quick Start Guide
+1. Create an account and get your API key at [carbonmkts.com](https://carbonmkts.com)
+2. Add your API key to the request header as `Authorization: Api-Key YOUR_API_KEY`
 
-Learn how to update your docs locally and deploy them to the public.
+```python
+headers = {
+    'Authorization': 'Api-Key YOUR_API_KEY'
+}
+```
 
-### Edit and preview
+3. Make API requests using our endpoints
 
-<AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
-  </Accordion>
-</AccordionGroup>
+## API Examples
 
-### Deploy your changes
+<CodeGroup>
 
-<AccordionGroup>
+```python Registry Data
+import requests
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
+headers = {
+    'Authorization': 'Api-Key YOUR_API_KEY'
+}
 
-</AccordionGroup>
+# Get all projects from a specific registry
+params = {
+    'registry': 'verra',
+    'limit': 100
+}
 
-## Update your docs
+response = requests.get(
+    'https://api.carbonmkts.com/registries',
+    headers=headers,
+    params=params
+)
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+registry_data = response.json()
+```
 
-<CardGroup>
+```python Project Search
+import requests
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
-</Card>
+headers = {
+    'Authorization': 'Api-Key YOUR_API_KEY'
+}
 
-<Card
-  title="Add API Endpoints"
-  icon="square-code"
-  href="/api-playground/configuration"
->
-  Implement your OpenAPI spec and enable API user interaction.
-</Card>
+# Search for forestry projects in Brazil
+params = {
+    'project_type': 'forestry',
+    'country': 'brazil',
+    'status': 'active',
+    'limit': 50
+}
 
-<Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
->
-  Draw insights from user interactions with your documentation.
-</Card>
+response = requests.get(
+    'https://api.carbonmkts.com/projects',
+    headers=headers,
+    params=params
+)
 
-<Card
-  title="Host on a Custom Domain"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
->
-  Keep your docs on your own website's subdomain.
-</Card>
+projects = response.json()
+```
 
-</CardGroup>
+```python Transaction Data
+import requests
+
+headers = {
+    'Authorization': 'Api-Key YOUR_API_KEY'
+}
+
+# Get recent retirements
+params = {
+    'transaction_type': 'retirement',
+    'page_size': 50
+}
+
+response = requests.get(
+    'https://api.carbonmkts.com/transactions',
+    headers=headers,
+    params=params
+)
+
+transactions = response.json()
+```
+
+</CodeGroup>
+
+## Rate Limits
+
+- Free tier: 100 requests per hour
+- Basic tier: 1,000 requests per hour
+- Premium tier: 10,000 requests per hour
+
+For higher rate limits, please contact [support@carbonmkts.com](mailto:support@carbonmkts.com).
+
+## Next Steps
+
+- Browse the [API Reference](/api-reference/registries) for detailed endpoint documentation
+- Learn about [authentication](/authentication) options
+- Check out our [Python SDK](https://github.com/carbonmkts/carbon-markets-python)
+- Join our [Discord community](https://discord.gg/carbonmkts) 

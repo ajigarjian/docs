@@ -1,0 +1,132 @@
+---
+title: 'Projects'
+api: 'GET /projects'
+description: 'Retrieve carbon offset project information'
+---
+
+# Projects API
+
+Access detailed information about carbon offset projects.
+
+## Authorizations
+
+<ParamField header="X-API-KEY" type="string" required>
+  API key for authentication.
+</ParamField>
+
+## Endpoint
+
+### Get All Projects
+
+<ParamField query="registry" type="string">
+  Filter by registry name
+</ParamField>
+
+<ParamField query="project_type" type="string">
+  Filter by project type
+</ParamField>
+
+<ParamField query="reduction_or_removal" type="string">
+  Filter by reduction/removal type (Reduction, Impermanent Removal, Long-Duration Removal, Mixed)
+</ParamField>
+
+<ParamField query="country" type="string">
+  Filter by country
+</ParamField>
+
+<ParamField query="region" type="string">
+  Filter by region
+</ParamField>
+
+<ParamField query="page" type="integer">
+  Page number for pagination
+</ParamField>
+
+<ParamField query="page_size" type="integer" default="10">
+  Number of results per page (max: 100)
+</ParamField>
+
+### Response
+
+<ResponseField name="count" type="integer">
+  Total number of projects
+</ResponseField>
+
+<ResponseField name="next" type="string">
+  URL for next page of results
+</ResponseField>
+
+<ResponseField name="previous" type="string">
+  URL for previous page of results
+</ResponseField>
+
+<ResponseField name="results" type="array">
+  <Expandable title="Project properties">
+    <ResponseField name="id" type="integer">
+      Project ID
+    </ResponseField>
+    
+    <ResponseField name="project_id" type="string">
+      Registry-specific project identifier
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Project name
+    </ResponseField>
+
+    <ResponseField name="registry_name" type="string">
+      Registry name
+    </ResponseField>
+
+    <ResponseField name="project_type_name" type="string">
+      Type of project
+    </ResponseField>
+
+    <ResponseField name="reduction_or_removal" type="string">
+      Type of carbon credit (Reduction/Removal)
+    </ResponseField>
+
+    <ResponseField name="methodology" type="string">
+      Project methodology
+    </ResponseField>
+
+    <ResponseField name="country" type="string">
+      Project country
+    </ResponseField>
+
+    <ResponseField name="region" type="string">
+      Project region
+    </ResponseField>
+
+    <ResponseField name="total_issuance" type="number">
+      Total credits issued
+    </ResponseField>
+
+    <ResponseField name="total_retirement" type="number">
+      Total credits retired
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY'
+}
+
+# Get all forestry projects in Brazil
+params = {
+    'project_type': 'forestry',
+    'country': 'brazil',
+    'page_size': 50
+}
+
+response = requests.get(
+    'https://api.carbonmkts.com/projects',
+    headers=headers,
+    params=params
+)
+```

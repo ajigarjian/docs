@@ -1,0 +1,103 @@
+---
+title: 'Carbon Data'
+api: 'GET /api/carbon-data'
+description: 'Retrieve carbon emissions data'
+---
+
+# Carbon Data API
+
+Retrieve carbon emissions data and related metrics for specific date ranges.
+
+## API Reference
+
+### Endpoint
+
+```http
+GET /api/carbon-data
+```
+
+### Parameters
+
+<ParamField query="start_date" type="string" required>
+  Start date for the data range (YYYY-MM-DD format)
+</ParamField>
+
+<ParamField query="end_date" type="string" required>
+  End date for the data range (YYYY-MM-DD format)
+</ParamField>
+
+<ParamField query="format" type="string" default="json">
+  Response format (supports 'json' or 'csv')
+</ParamField>
+
+### Response
+
+<ResponseField name="emissions" type="number">
+  Carbon emissions value in metric tons
+</ResponseField>
+
+<ResponseField name="unit" type="string">
+  Unit of measurement (e.g., "metric_tons")
+</ResponseField>
+
+<ResponseField name="period" type="object">
+  <Expandable title="properties">
+    <ResponseField name="start_date" type="string">
+      Start date of the data range
+    </ResponseField>
+    <ResponseField name="end_date" type="string">
+      End date of the data range
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY'
+}
+
+params = {
+    'start_date': '2023-01-01',
+    'end_date': '2023-12-31',
+    'format': 'json'
+}
+
+response = requests.get(
+    'https://your-api.com/api/carbon-data',
+    headers=headers,
+    params=params
+)
+
+data = response.json()
+```
+
+### Example Response
+
+```json
+{
+  "emissions": 1234.56,
+  "unit": "metric_tons",
+  "period": {
+    "start_date": "2023-01-01",
+    "end_date": "2023-12-31"
+  },
+  "metadata": {
+    "source": "Carbon API",
+    "calculation_method": "direct_measurement"
+  }
+}
+```
+
+### Error Responses
+
+| Status Code | Description |
+|------------|-------------|
+| 400 | Bad Request - Invalid parameters |
+| 401 | Unauthorized - Invalid API key |
+| 403 | Forbidden - API key lacks permissions |
+| 404 | Not Found - No data available |
+| 429 | Too Many Requests - Rate limit exceeded |

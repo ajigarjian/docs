@@ -1,0 +1,115 @@
+---
+title: 'Certifications'
+api: 'GET /certifications'
+description: 'Retrieve carbon project certification information'
+---
+
+# Certifications API
+
+Access information about project certifications and standards compliance.
+
+## Authorizations
+
+<ParamField header="X-API-KEY" type="string" required>
+  API key for authentication.
+</ParamField>
+
+## Endpoint
+
+### Get All Certifications
+
+<ParamField query="name" type="string">
+  Filter by certification name
+</ParamField>
+
+<ParamField query="project" type="string">
+  Filter by project ID
+</ParamField>
+
+<ParamField query="page" type="integer">
+  Page number for pagination
+</ParamField>
+
+<ParamField query="page_size" type="integer" default="10">
+  Number of results per page (max: 100)
+</ParamField>
+
+### Response
+
+<ResponseField name="count" type="integer">
+  Total number of certifications
+</ResponseField>
+
+<ResponseField name="next" type="string">
+  URL for next page of results
+</ResponseField>
+
+<ResponseField name="previous" type="string">
+  URL for previous page of results
+</ResponseField>
+
+<ResponseField name="results" type="array">
+  <Expandable title="Certification properties">
+    <ResponseField name="id" type="integer">
+      Certification ID
+    </ResponseField>
+    
+    <ResponseField name="name" type="string">
+      Certification name
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Certification description
+    </ResponseField>
+
+    <ResponseField name="project_name" type="string">
+      Name of the certified project
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY'
+}
+
+# Get all VCS certifications
+params = {
+    'name': 'VCS',
+    'page_size': 50
+}
+
+response = requests.get(
+    'https://api.carbonapi.com/certifications',
+    headers=headers,
+    params=params
+)
+```
+
+### Example Response
+
+```json
+{
+  "count": 150,
+  "next": "https://api.carbonapi.com/certifications?page=2",
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "name": "VCS",
+      "description": "Verified Carbon Standard certification",
+      "project_name": "Amazon Forest Conservation Project"
+    },
+    {
+      "id": 2,
+      "name": "CCB",
+      "description": "Climate, Community & Biodiversity Standards",
+      "project_name": "Amazon Forest Conservation Project"
+    }
+  ]
+}
+``` 

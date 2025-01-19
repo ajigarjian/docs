@@ -1,0 +1,108 @@
+---
+title: 'Transactions'
+api: 'GET /transactions'
+description: 'Retrieve carbon credit transaction information'
+---
+
+# Transactions API
+
+Access information about carbon credit issuances, retirements, and other transactions.
+
+## Authorizations
+
+<ParamField header="X-API-KEY" type="string" required>
+  API key for authentication.
+</ParamField>
+
+## Endpoint
+
+### Get All Transactions
+
+<ParamField query="project" type="string">
+  Filter by project ID
+</ParamField>
+
+<ParamField query="transaction_type" type="string">
+  Filter by type (Issuance, Retirement, Cancellation, Buffer Contribution)
+</ParamField>
+
+<ParamField query="transaction_date" type="string">
+  Filter by date (YYYY-MM-DD)
+</ParamField>
+
+<ParamField query="page" type="integer">
+  Page number for pagination
+</ParamField>
+
+<ParamField query="page_size" type="integer" default="10">
+  Number of results per page (max: 100)
+</ParamField>
+
+### Response
+
+<ResponseField name="count" type="integer">
+  Total number of transactions
+</ResponseField>
+
+<ResponseField name="next" type="string">
+  URL for next page of results
+</ResponseField>
+
+<ResponseField name="previous" type="string">
+  URL for previous page of results
+</ResponseField>
+
+<ResponseField name="results" type="array">
+  <Expandable title="Transaction properties">
+    <ResponseField name="id" type="integer">
+      Transaction ID
+    </ResponseField>
+    
+    <ResponseField name="project_name" type="string">
+      Name of the associated project
+    </ResponseField>
+
+    <ResponseField name="transaction_type" type="string">
+      Type of transaction
+    </ResponseField>
+
+    <ResponseField name="quantity" type="integer">
+      Number of credits involved
+    </ResponseField>
+
+    <ResponseField name="transaction_date" type="string">
+      Date of transaction
+    </ResponseField>
+
+    <ResponseField name="buffer_credits_deposited" type="integer">
+      Number of buffer credits deposited
+    </ResponseField>
+
+    <ResponseField name="reversals_covered_by_buffer_pool" type="integer">
+      Reversals covered by buffer pool
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY'
+}
+
+# Get recent issuances
+params = {
+    'transaction_type': 'Issuance',
+    'transaction_date': '2023-01-01',
+    'page_size': 50
+}
+
+response = requests.get(
+    'https://api.carbonmkts.com/transactions',
+    headers=headers,
+    params=params
+)
+```

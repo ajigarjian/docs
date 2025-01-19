@@ -1,0 +1,126 @@
+---
+title: 'Registries'
+api: 'GET /registries'
+description: 'Retrieve carbon registry information'
+---
+
+# Registries API
+
+Access information about carbon registries and their associated projects.
+
+## Authorizations
+
+<ParamField header="X-API-KEY" type="string" required>
+  API key for authentication.
+</ParamField>
+
+## Required Fields
+The registry object includes the following required fields:
+- `id` (integer): Unique identifier
+- `name` (string): Registry name
+
+Optional fields:
+- `description` (string): Registry description
+- `projects_count` (integer): Number of associated projects
+
+## Endpoint
+
+### Get All Registries
+
+<ParamField query="name" type="string" required={false}>
+  Filter registries by name
+</ParamField>
+
+<ParamField query="page" type="integer" required={false}>
+  Page number for pagination
+</ParamField>
+
+<ParamField query="page_size" type="integer" default="10" required={false}>
+  Number of results per page (max: 100)
+</ParamField>
+
+### Response
+
+<ResponseField name="count" type="integer">
+  Total number of registries
+</ResponseField>
+
+<ResponseField name="next" type="string">
+  URL for next page of results
+</ResponseField>
+
+<ResponseField name="previous" type="string">
+  URL for previous page of results
+</ResponseField>
+
+<ResponseField name="results" type="array">
+  <Expandable title="Registry properties">
+    <ResponseField name="id" type="integer">
+      Registry ID
+    </ResponseField>
+    
+    <ResponseField name="name" type="string">
+      Registry name
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Registry description
+    </ResponseField>
+
+    <ResponseField name="projects_count" type="integer">
+      Number of projects in this registry
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example Request
+
+```python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY'
+}
+
+# Get all registries
+response = requests.get(
+    'https://api.carbonapi.com/registries',
+    headers=headers
+)
+
+# Filter registries by name
+params = {
+    'name': 'Verra',
+    'page_size': 50
+}
+
+response = requests.get(
+    'https://api.carbonapi.com/registries',
+    headers=headers,
+    params=params
+)
+```
+
+### Example Response
+
+```json
+{
+  "count": 4,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "name": "Verra",
+      "description": "Verra develops and manages standards that help countries, the private sector, and civil society achieve ambitious sustainable development and climate action goals.",
+      "projects_count": 1582
+    },
+    {
+      "id": 2,
+      "name": "Gold Standard",
+      "description": "Gold Standard was established in 2003 by WWF and other international NGOs to ensure projects that reduced carbon emissions featured the highest levels of environmental integrity.",
+      "projects_count": 892
+    }
+  ]
+}
+``` 
