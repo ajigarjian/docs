@@ -1,7 +1,11 @@
 {
     "$schema": "https://mintlify.com/schema.json",
-    "name": "Carbon API Documentation",
+    "name": "Carbon Markets",
     "favicon": "/public/images/favicon.png",
+    "topbarCtaButton": {
+        "name": "Go to App",
+        "url": "https://www.carbonmkts.com"
+    },
     "navigation": [
       {
         "group": "Getting Started",
